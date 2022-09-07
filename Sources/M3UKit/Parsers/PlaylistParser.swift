@@ -43,6 +43,7 @@ public final class PlaylistParser: Parser {
     let rawString = try extractRawString(from: input)
 
     var medias: [Playlist.Media] = []
+      var sequences: [Playlist.MediaSequence] = []
 
     let metadataParser = MediaMetadataParser()
     var lastMetadataLine: String?
@@ -51,6 +52,12 @@ public final class PlaylistParser: Parser {
     var lineNumber = 0
 
     rawString.enumerateLines { line, stop in
+        if metadataParser.isSequenceDivider(line) {
+            sequences.append(.init(medias: medias))
+            medias = []
+            lineNumber += 1
+            return
+        }
       if metadataParser.isInfoLine(line) {
         lastMetadataLine = line
       } else if let url = URL(string: line) {
@@ -71,12 +78,15 @@ public final class PlaylistParser: Parser {
 
       lineNumber += 1
     }
+      sequences.append(.init(medias: medias))
+
+
 
     if let error = mediaMetadataParsingError {
       throw error
     }
 
-    return Playlist(medias: medias)
+      return Playlist(sequences: sequences)
   }
 
   /// Walk over a playlist and return its medias one-by-one.

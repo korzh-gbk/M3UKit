@@ -25,10 +25,10 @@
 public struct Playlist: Equatable, Hashable, Codable {
   /// Create a playlist.
   /// - Parameter medias: medias.
-  public init(medias: [Media]) {
-    self.medias = medias
+  public init(sequences: [MediaSequence]) {
+    self.sequences = sequences
   }
 
   /// Medias.
-  public var medias: [Media]
+  public var sequences: [MediaSequence]
 }

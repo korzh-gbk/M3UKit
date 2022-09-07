@@ -27,7 +27,7 @@ extension Playlist {
   /// Object representing a media.
   public struct Media: Equatable, Hashable, Codable {
     typealias Metadata = (
-      duration: Int,
+      duration: Double,
       attributes: Attributes,
       name: String
     )
@@ -48,7 +48,7 @@ extension Playlist {
     ///   - name: name.
     ///   - url: url.
     public init(
-      duration: Int,
+      duration: Double,
       attributes: Attributes,
       name: String,
       url: URL
@@ -60,7 +60,7 @@ extension Playlist {
     }
 
     /// Duration, Usually -1 for live stream content.
-    public var duration: Int
+    public var duration: Double
 
     /// Attributes.
     public var attributes: Attributes

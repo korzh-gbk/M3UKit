@@ -26,7 +26,7 @@ import XCTest
 
 final class MediaTests: XCTestCase {
   func testInit() {
-    let duration = 0
+    let duration: Double = 0
     let attributes = Playlist.Media.Attributes()
     let name = "name"
     let url = URL(string: "https://not.a/real/url")!

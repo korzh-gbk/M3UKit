@@ -46,10 +46,14 @@ final class MediaMetadataParser: Parser {
     return input.starts(with: "#EXTINF:")
   }
 
-  func extractDuration(_ input: (line: Int, rawString: String)) throws -> Int {
+    func isSequenceDivider(_ input: String) -> Bool {
+      return input.starts(with: "#EXT-X-DISCONTINUITY")
+    }
+
+  func extractDuration(_ input: (line: Int, rawString: String)) throws -> Double {
     guard
       let match = durationRegex.firstMatch(in: input.rawString),
-      let duration = Int(match)
+      let duration = Double(match)
     else {
       throw ParsingError.missingDuration(input.line, input.rawString)
     }
@@ -62,6 +66,6 @@ final class MediaMetadataParser: Parser {
 
   let seasonEpisodeParser = SeasonEpisodeParser()
   let attributesParser = MediaAttributesParser()
-  let durationRegex: RegularExpression = #"#EXTINF:(\-*\d+)"#
+  let durationRegex: RegularExpression = #"#EXTINF:(\-*[0-9]+([.][0-9]*)?|[.][0-9]+)"#
   let nameRegex: RegularExpression = #".*,(.+?)$"#
 }
